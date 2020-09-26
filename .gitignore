@@ -1,0 +1,4 @@
+venv
+.idea
+.history
+src/__pycache__
