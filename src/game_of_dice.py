@@ -12,8 +12,9 @@ class GameOfDice:
         self.player_count = player_count
         self.win_score = win_score
         self.die = Die()
-        self.all_players = {Player(f'Player {id_}') for id_ in range(1, player_count + 1)}
-        self.players = deque(self.all_players)
+        self.players = deque(Player(f'Player {id_}')
+                             for id_ in range(1, player_count + 1))
+        self.players_won = []
 
     def is_game_over(self) -> bool:
         return len(self.players) == 0
@@ -39,7 +40,9 @@ class GameOfDice:
 
         if player.state == PlayerState.BONUS:
             self.players.appendleft(player)
-        elif player.state != PlayerState.END:
+        elif player.state == PlayerState.END:
+            self.players_won.append(player)
+        else:
             self.players.append(player)
 
         return score, player
@@ -55,10 +58,15 @@ class GameOfDice:
             return PlayerState.PLAY
 
     def get_rank(self, player: Player) -> int:
-        return list(sorted(self.all_players, reverse=True)).index(player) + 1
-    
+        if player in self.players_won:
+            return self.players_won.index(player) + 1
+        else:
+            return list(sorted(self.players, reverse=True)).index(player) + len(self.players_won) + 1
+
     def show_rank_table(self) -> None:
         rank_table = PrettyTable(['Rank', 'Player', 'Score', 'State'])
-        for rank, player in enumerate(sorted(self.all_players, reverse=True), 1):
+        for rank, player in enumerate(self.players_won, 1):
+            rank_table.add_row([rank, player.name, player.score, player.state])
+        for rank, player in enumerate(sorted(self.players, reverse=True), len(self.players_won) + 1):
             rank_table.add_row([rank, player.name, player.score, player.state])
         print(rank_table)
