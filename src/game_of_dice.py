@@ -35,8 +35,8 @@ class GameOfDice:
 
         player = self.current_player(pop=True)
         score = self.die.roll()
-        player.add_score(score)
-        player.state = self.__find_player_state(player, score)
+        state = self.__find_player_state(player, score)
+        player.update(score, state)
 
         if player.state == PlayerState.BONUS:
             self.players.appendleft(player)
@@ -48,11 +48,11 @@ class GameOfDice:
         return score, player
 
     def __find_player_state(self, player: Player, score=0) -> PlayerState:
-        if player.score >= self.win_score:
+        if player.score + score >= self.win_score:
             return PlayerState.END
-        elif score == 6:
+        elif score == Die.MAX_VALUE:
             return PlayerState.BONUS
-        elif score == 1:
+        elif score == Die.MIN_VALUE and player.prev_score == Die.MIN_VALUE:
             return PlayerState.SKIP
         else:
             return PlayerState.PLAY
@@ -70,3 +70,4 @@ class GameOfDice:
         for rank, player in enumerate(sorted(self.players, reverse=True), len(self.players_won) + 1):
             rank_table.add_row([rank, player.name, player.score, player.state])
         print(rank_table)
+        print(f'Winning score = {self.win_score}')

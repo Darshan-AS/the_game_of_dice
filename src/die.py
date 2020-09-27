@@ -34,5 +34,5 @@ class Die:
         if value not in Die.VALUE_PATTERN:
             print('Invalid value for the die')
             return
-        
+
         print(*Die.VALUE_PATTERN[value], sep='\n')

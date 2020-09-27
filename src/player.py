@@ -16,6 +16,7 @@ class Player:
     def __init__(self, name: str, score=0, state=PlayerState.PLAY) -> None:
         self.name = name
         self.__score = score
+        self.__score_history = [score]
         self.__state = state
 
     def __repr__(self) -> str:
@@ -31,10 +32,12 @@ class Player:
         return self.name == other.name and self.score == other.score and self.state == other.state
 
     def __hash__(self) -> int:
-        return hash(repr(self)) 
+        return hash(repr(self))
 
-    def add_score(self, score) -> None:
+    def update(self, score: int, state: PlayerState) -> None:
+        self.__score_history.append(score)
         self.__score += score
+        self.__state = state
 
     @property
     def score(self) -> int:
@@ -44,6 +47,6 @@ class Player:
     def state(self) -> PlayerState:
         return self.__state
 
-    @state.setter
-    def state(self, s: PlayerState) -> None:
-        self.__state = s
+    @property
+    def prev_score(self) -> int:
+        return self.__score_history[-1]

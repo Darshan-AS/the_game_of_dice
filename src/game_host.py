@@ -14,19 +14,21 @@ class GameHost:
     def show_intro(self) -> None:
         print(self.figlet.renderText(GameHost.INTRO_MESSAGE))
         print(open('assets/rules.txt').read())
-    
+
     def show_outro(self) -> None:
         print(self.figlet.renderText(GameHost.OUTRO_MESSAGE))
+
+    def show_divider(self) -> None:
+        print('\n' * 2 + '-' * 100)
 
     def run(self) -> None:
         player_count = int(input('How many are playing? '))
         win_score = int(input('What is the winning score? '))
-        print('\n')
+        self.show_divider()
 
         game = GameOfDice(player_count, win_score)
         while not game.is_game_over():
-            player = game.current_player()
-            while input(f"{player}. It's your turn now. (Press 'r' to roll the die): ").lower() != 'r':
+            while input(f"{game.current_player()}. It's your turn now. (Press 'r' to roll the die): ").lower() != 'r':
                 pass
 
             score, player = game.play()
@@ -46,12 +48,14 @@ class GameHost:
 
             print()
             game.show_rank_table()
-            print('\n' * 3)
+            self.show_divider()
 
         print('Game Over!' + '\n')
 
+
 def show_contact_info():
     print(open('assets/contact_info.txt').read())
+
 
 if __name__ == '__main__':
     host = GameHost()
