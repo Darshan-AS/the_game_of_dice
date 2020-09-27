@@ -2,6 +2,8 @@ from io import UnsupportedOperation
 from player import Player, PlayerState
 from die import Die
 from collections import deque
+from prettytable import PrettyTable
+
 
 class GameOfDice:
     GAME_OVER = 'Game Over!'
@@ -10,7 +12,7 @@ class GameOfDice:
         self.player_count = player_count
         self.win_score = win_score
         self.die = Die()
-        self.all_players = [Player(f'Player {id_}') for id_ in range(1, player_count + 1)]
+        self.all_players = {Player(f'Player {id_}') for id_ in range(1, player_count + 1)}
         self.players = deque(self.all_players)
 
     def is_game_over(self) -> bool:
@@ -52,5 +54,11 @@ class GameOfDice:
         else:
             return PlayerState.PLAY
 
+    def get_rank(self, player: Player) -> int:
+        return list(sorted(self.all_players, reverse=True)).index(player) + 1
+    
     def show_rank_table(self) -> None:
-        print(self.all_players)
+        rank_table = PrettyTable(['Rank', 'Player', 'Score', 'State'])
+        for rank, player in enumerate(sorted(self.all_players, reverse=True), 1):
+            rank_table.add_row([rank, player.name, player.score, player.state])
+        print(rank_table)

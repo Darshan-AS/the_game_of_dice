@@ -18,7 +18,7 @@ class GameHost:
             print(f'You rolled a {score}')
 
             if player.state == PlayerState.END:
-                print('Congrats! You finished at rank {rank}!')
+                print(f'Congrats! You finished at rank {game.get_rank(player)}')
             elif player.state == PlayerState.BONUS:
                 print('Awesome! You earned a bonus round :)')
             elif player.state == PlayerState.SKIP:
