@@ -1,6 +1,6 @@
 from game_of_dice import GameOfDice
 from player import PlayerState
-
+from die import Die
 
 class GameHost:
 
@@ -16,6 +16,8 @@ class GameHost:
                 pass
             score, player = game.play()
             print(f'You rolled a {score}')
+            Die.show_die(score)
+            print()
 
             if player.state == PlayerState.END:
                 print(f'Congrats! You finished at rank {game.get_rank(player)}')
@@ -25,6 +27,7 @@ class GameHost:
                 print('Bummer! You skip next round :(')
 
             game.show_rank_table()
+            print()
         print('Game Over!')
 
 
