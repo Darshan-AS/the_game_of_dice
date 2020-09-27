@@ -2,7 +2,7 @@
 # Game of Dice
 
 #### Installation:
-- Install Python 3.8.x or above if not already
+- Install Python 3.8.x or above if not already*
 - Run the following
 
 ```shell script
@@ -16,3 +16,5 @@ To start the game run the below command and follow on screen instructons
 ```shell script
 python3 src/game_host.py
 ```
+
+*Recommended to use a virtual environment
