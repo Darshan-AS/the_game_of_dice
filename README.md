@@ -6,7 +6,7 @@
 - Run the following
 
 ```shell script
-git clone url 
+git clone https://github.com/Darshan-AS/the_game_of_dice.git 
 cd downloaded_path/the_game_of_dice
 pip3 install -r requirements.txt
 ```
