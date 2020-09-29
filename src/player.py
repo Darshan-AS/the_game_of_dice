@@ -47,6 +47,10 @@ class Player:
     def state(self) -> PlayerState:
         return self.__state
 
+    @state.setter
+    def state(self, state) -> None:
+        self.__state = state
+
     @property
     def prev_score(self) -> int:
         return self.__score_history[-1]
